@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+$primary-color: #efcad0;
+$text-color: #b3b3b3;
+$max-width: 1200px;
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between; /* Ensures spacing between sections */
+  align-items: center; /* Vertically aligns everything */
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-family: Playfair Display, serif;
+      color: $primary-color;
+      font-weight: 600;
+    }
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    flex: 1; /* Pushes navigation to occupy available space */
+    justify-content: center; /* Centers the navigation links */
+
+    ul {
+      display: flex;
+      list-style: none;
+      gap: 200px;
+      margin: 0;
+      padding: 0;
+
+      li a {
+        text-decoration: none;
+        color: $text-color;
+        font-weight: 500;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .header-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: $text-color;
+    gap: 15px;
+    flex-shrink: 0;
+
+    .icon {
+      font-size: 18px;
+      color: $text-color;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 15px;
+
+    .nav {
+      justify-content: center;
+      ul {
+        gap: 10px;
+      }
+    }
+
+    .header-icons {
+      justify-content: center; /* Center icons on smaller screens */
+      margin-top: 10px; /* Add some spacing below nav */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header {
+      padding: 10px;
+
+      .nav ul {
+        flex-direction: column; /* Stack nav links */
+        gap: 5px;
+      }
+
+      .header-icons {
+        gap: 10px;
+      }
+    }
+  }
+}
