@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name'); 
             $table->text('description')->nullable(); 
-            $table->string('category');
+            $table->enum('category', ['haut', 'bas', 'accessoires']);
             $table->integer('quantity')->default(0); 
-            $table->string('size')->nullable(); 
+            $table->json('size')->nullable();
             $table->timestamps();
         });
     }
