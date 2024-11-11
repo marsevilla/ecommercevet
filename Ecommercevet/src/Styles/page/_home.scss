@@ -1,5 +1,5 @@
 .presentation {
-  width: 1440px;
+  width: 100%;
   height: 718px;
   background: url(../assets/bannerHome.png);
   background-size: cover;
@@ -42,5 +42,20 @@
   &__container {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.collections {
+  margin-top: 5%;
+  margin-bottom: 2%;
+  &__container {
+    width: 90%;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }

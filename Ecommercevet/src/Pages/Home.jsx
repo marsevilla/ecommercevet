@@ -2,9 +2,18 @@ import Hauts from "../assets/haut.png";
 import Bas from "../assets/bas.png";
 import Accessoires from "../assets/accessoire.png";
 import PinkButton from "../Components/PinkButton";
+import WhiteButton from "../Components/WitheButton";
 import CategoriesCard from "../Components/CategoriesCard";
+import ProductCard from "../Components/productCard";
 
 function Home() {
+  function productCards() {
+    const cards = [];
+    for (let i = 0; i < 8; i++) {
+      cards.push(<ProductCard key={i} />);
+    }
+    return cards;
+  }
   return (
     <main>
       <section className="presentation">
@@ -45,7 +54,10 @@ function Home() {
       </section>
       <section className="collections">
         <h2 className="title">Nos dernières collections</h2>
-        <div className="collections__container"></div>
+        <div className="collections__container">
+          {productCards()}
+          <WhiteButton />
+        </div>
       </section>
       <section className="lookBook"></section>
     </main>
