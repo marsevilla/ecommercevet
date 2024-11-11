@@ -17,6 +17,7 @@ class Product extends Model
         'category',
         'quantity',
         'size',
+        'price',
     ];
 
     public function orderProducts()

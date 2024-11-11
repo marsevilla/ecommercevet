@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('image_url')->nullable();  
             $table->enum('category', ['haut', 'bas', 'accessoires']);
             $table->integer('quantity')->default(0); 
+            $table->decimal('price', 8, 2)->default(0);
             $table->json('size')->nullable();
             $table->timestamps();
         });

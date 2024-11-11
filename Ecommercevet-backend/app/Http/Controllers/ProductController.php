@@ -30,7 +30,8 @@ class ProductController extends Controller
             'image_url' => 'nullable|string',
             'category' => 'required|in:haut,bas,accessoires',
             'quantity' => 'required|integer|min:0',
-            'size' => 'nullable|array',
+            'price' => 'required|numeric|min:0,
+            'size' => 'nullable|array'
         ]);
 
         if ($request->has('size')) {
@@ -74,7 +75,8 @@ class ProductController extends Controller
             'image_url' => 'nullable|string',
             'category' => 'required|in:haut,bas,accessoires',
             'quantity' => 'sometimes|required|integer|min:0',
-            'size' => 'nullable|array',
+            'price' => 'required|numeric|min:0
+            'size' => 'nullable|array'
         ]);
 
         if ($request->has('size')) {
