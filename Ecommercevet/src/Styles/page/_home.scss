@@ -9,7 +9,7 @@
 
   &__nouveautes {
     width: 561px;
-    height: 340px;
+    height: 443px;
     background-color: $secondaryColor;
     border-radius: 10px;
     margin-right: 5%;
@@ -31,7 +31,7 @@
 }
 
 .categories {
-  width: 80%;
+  width: 85%;
   margin: auto;
   padding-top: 2%;
   &__text {
@@ -57,5 +57,27 @@
     justify-content: space-around;
     flex-wrap: wrap;
     gap: 10px;
+  }
+}
+
+.lookBook {
+  width: 100%;
+  height: 670px;
+  background-color: $secondaryColor;
+  display: flex;
+  justify-content: flex-start;
+  &__container {
+    width: 30%;
+    align-self: center;
+    padding-left: 7%;
+    &--title {
+      text-align: left;
+    }
+    &--txt {
+      margin-top: 10%;
+      margin-bottom: 5%;
+      font-size: 16px;
+      color: black;
+    }
   }
 }

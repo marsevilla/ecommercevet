@@ -59,7 +59,17 @@ function Home() {
           <WhiteButton />
         </div>
       </section>
-      <section className="lookBook"></section>
+      <section className="lookBook">
+        <div className="lookBook__container">
+          <h2 className="title lookBook__container--title">Lookbook</h2>
+          <p className="lookBook__container--txt">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta,
+            doloremque ipsa at ad ex natus.
+          </p>
+          <WhiteButton />
+        </div>
+        <div className="lookBook__caroussel">caroussel</div>
+      </section>
     </main>
   );
 }
