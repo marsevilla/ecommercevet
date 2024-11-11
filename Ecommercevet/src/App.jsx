@@ -7,6 +7,8 @@ import Boutique from "./Pages/Boutique";
 import Account from "./Pages/Account";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import Legals from "./Pages/Legals";
+import GeneralConditionsOfSale from "./Pages/GeneralConditionsOfSale";
 
 function App() {
   return (
@@ -17,7 +19,8 @@ function App() {
         <Route path="/Boutique" element={<Boutique />} />
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
-        <Route path="/Account" element={<Account />} />
+        <Route path="/legals" element={<Legals />} />
+        <Route path='/terms' element={<GeneralConditionsOfSale/>} />
       </Routes>
       <Footer />
     </>
