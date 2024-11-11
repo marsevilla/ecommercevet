@@ -9,6 +9,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Legals from "./Pages/Legals";
 import GeneralConditionsOfSale from "./Pages/GeneralConditionsOfSale";
+import SingleProduct from "./Pages/SingleProduct";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Boutique" element={<Boutique />} />
+        <Route path="/product/:id" element={<SingleProduct/>} />
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/legals" element={<Legals />} />
