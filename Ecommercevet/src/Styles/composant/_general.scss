@@ -1,0 +1,22 @@
+.title {
+  font-family: "Playfair Display", sans-serif;
+  font-size: 52px;
+  color: $primaryColor;
+  text-align: center;
+  margin: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: $otherColor;
+  margin: 0;
+}
+p {
+  margin: 0;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
