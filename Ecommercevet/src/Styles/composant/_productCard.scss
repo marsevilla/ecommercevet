@@ -1,0 +1,48 @@
+.productCard {
+  position: relative;
+  width: 285px;
+  height: 446px;
+  background-color: lighten($otherColor, 25%);
+  margin-bottom: 5%;
+  &__img {
+    height: 301px;
+  }
+  &__info {
+    color: black;
+    padding-top: 5%;
+    padding-left: 5%;
+    &--title {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 29px;
+    }
+    &--txt {
+      font-size: 16px;
+      line-height: 24px;
+      margin-top: 5px;
+      margin-bottom: 8px;
+    }
+    &--price {
+      line-height: 30px;
+      font-weight: bold;
+    }
+  }
+  &__container {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    width: 285px;
+    height: 446px;
+  }
+  &__btn {
+    position: absolute;
+    top: 53%;
+    left: 7.5%;
+    border: none;
+    width: 242px;
+    height: 52px;
+    background-color: $primaryColor;
+    color: white;
+    cursor: pointer;
+  }
+}

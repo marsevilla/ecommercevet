@@ -1,1 +1,148 @@
-@import "./utils/_variables";
+@import "./utils/variables";
+@import "./composant/general";
+@import "./composant/pinkButton";
+@import "./composant/whiteButton";
+@import "./composant/categoriesCard";
+@import "./composant/productCard";
+@import "./page/home";
+@import "./page/boutique";
+
+/* Variables */
+$primary-color: #d99dbf; /* Pink accent color */
+$secondary-color: #f9f6f3; /* Light beige background */
+$text-color: #6e6e6e; /* Soft gray for text */
+$border-radius: 8px; /* Consistent border radius */
+$font-family: 'Roboto', sans-serif; /* Your chosen font */
+
+/* Reset */
+body {
+  font-family: $font-family;
+  margin: 0;
+  padding: 0;
+  background-color: #fff; /* Global background color */
+}
+
+/* Account Container */
+.account-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: $secondary-color;
+  padding: 20px 30px;
+  border-radius: $border-radius;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h1 {
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    label {
+      font-size: 16px;
+      color: $text-color;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: $border-radius;
+      font-size: 14px;
+      outline: none;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 4px rgba(217, 157, 191, 0.5);
+      }
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #fff;
+      background-color: $primary-color;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+
+      &.login {
+        background-color: $primary-color;
+      }
+
+      &.save {
+        background-color: #4caf50;
+      }
+
+      &.cancel {
+        background-color: #f44336;
+      }
+
+      &.edit {
+        background-color: $primary-color;
+      }
+
+      &.logout {
+        background-color: #666;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .personal-info {
+    .info-item {
+      text-align: left;
+      margin-bottom: 10px;
+      font-size: 16px;
+
+      strong {
+        font-weight: bold;
+        color: $primary-color;
+      }
+    }
+
+    .button-group {
+      margin-top: 20px;
+
+      button {
+        margin: 0 5px;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: $border-radius;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .account-container {
+    padding: 15px 20px;
+  }
+
+  form {
+    input {
+      font-size: 12px;
+    }
+
+    .btn {
+      font-size: 14px;
+    }
+  }
+}

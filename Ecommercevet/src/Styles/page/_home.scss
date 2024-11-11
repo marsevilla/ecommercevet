@@ -1,0 +1,83 @@
+.presentation {
+  width: 100%;
+  height: 718px;
+  background: url(../assets/bannerHome.png);
+  background-size: cover;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  &__nouveautes {
+    width: 561px;
+    height: 443px;
+    background-color: $secondaryColor;
+    border-radius: 10px;
+    margin-right: 5%;
+    padding: 3%;
+  }
+  &__title {
+    text-align: left;
+  }
+  &--text1 {
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  &--text2 {
+    color: black;
+    margin-top: 2%;
+    margin-bottom: 10%;
+    font-size: 18px;
+  }
+}
+
+.categories {
+  width: 85%;
+  margin: auto;
+  padding-top: 2%;
+  &__text {
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 3%;
+  }
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.collections {
+  margin-top: 5%;
+  margin-bottom: 2%;
+  &__container {
+    width: 90%;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+.lookBook {
+  width: 100%;
+  height: 670px;
+  background-color: $secondaryColor;
+  display: flex;
+  justify-content: flex-start;
+  &__container {
+    width: 30%;
+    align-self: center;
+    padding-left: 7%;
+    &--title {
+      text-align: left;
+    }
+    &--txt {
+      margin-top: 10%;
+      margin-bottom: 5%;
+      font-size: 16px;
+      color: black;
+    }
+  }
+}

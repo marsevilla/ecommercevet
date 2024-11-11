@@ -25,12 +25,18 @@ class ProductController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'short_description' => 'nullable|string',
             'description' => 'nullable|string',
-            'category' => 'required|string',
+            'image_url' => 'nullable|string',
+            'category' => 'required|in:haut,bas,accessoires',
             'quantity' => 'required|integer|min:0',
-            'size' => 'nullable|string|max:50',
-            'price' => 'required|numeric|min:0'
+            'price' => 'required|numeric|min:0,
+            'size' => 'nullable|array'
         ]);
+
+        if ($request->has('size')) {
+            $validated['size'] = json_encode($validated['size']);
+        }
 
         $product = Product::create($validated);
 
@@ -64,12 +70,18 @@ class ProductController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
+            'short_description' => 'nullable|string',
             'description' => 'nullable|string',
-            'category' => 'sometimes|required|string',
+            'image_url' => 'nullable|string',
+            'category' => 'required|in:haut,bas,accessoires',
             'quantity' => 'sometimes|required|integer|min:0',
-            'size' => 'nullable|string|max:50',
-            'price' => 'required|numeric|min:0'
+            'price' => 'required|numeric|min:0
+            'size' => 'nullable|array'
         ]);
+
+        if ($request->has('size')) {
+            $validated['size'] = json_encode($validated['size']);
+        }
 
         $product->update($validated);
 
