@@ -1,0 +1,11 @@
+.CatCard {
+  text-align: center;
+  color: black;
+  &__img {
+    border-radius: 15px;
+  }
+  &__title {
+    font-weight: 600;
+    margin-top: 5%;
+  }
+}
