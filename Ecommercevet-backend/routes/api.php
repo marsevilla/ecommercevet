@@ -25,6 +25,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/payment', [PaymentController::class, 'createPayment']);
     });
 
-Route::middleware(['admin'])->group(function () {
-    // Nos routes admin ici
-});
