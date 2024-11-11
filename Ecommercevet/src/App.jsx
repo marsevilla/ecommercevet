@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Panier from "./Pages/Panier";
 import Contact from "./Pages/Contact";
 import Boutique from "./Pages/Boutique";
+import Account from "./Pages/Account";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Boutique" element={<Boutique />} />
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/Account" element={<Account />} />
       </Routes>
       <Footer />
     </>
