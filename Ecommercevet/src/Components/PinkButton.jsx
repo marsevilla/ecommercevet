@@ -1,4 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 function PinkButton({ title }) {
-  return <button className="pinkButton">{title}</button>;
+  const navigate = useNavigate();
+  return (
+    <button className="pinkButton" onClick={() => navigate("/Boutique")}>
+      {title}
+    </button>
+  );
 }
 export default PinkButton;
