@@ -1,0 +1,14 @@
+.boutiqueBanner {
+  height: 416px;
+  background-color: $secondaryColor;
+  &__filtres {
+    width: 90%;
+    height: 95px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+    align-items: center;
+    color: black;
+    font-weight: bold;
+  }
+}
