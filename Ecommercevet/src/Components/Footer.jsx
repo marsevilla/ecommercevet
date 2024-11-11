@@ -24,7 +24,7 @@ function Footer() {
             <li><a href="/accoubt">Mon compte</a></li>
           </ul>
           <ul>
-            <li><a href="/legal">Mentions légales</a></li>
+            <li><a href="/legals">Mentions légales</a></li>
             <li><a href="/terms">Conditions générales de ventes</a></li>
           </ul>
         </div>

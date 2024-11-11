@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Playfair+Display:wght@700&display=swap');
+
+.legals-banner {
+    width : 100vw;
+    height : 40vh;
+    object-fit: cover;
+}
+
+.legals-container {
+  padding: 50px;
+  
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #EFCAD0;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #EFCAD0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+}
