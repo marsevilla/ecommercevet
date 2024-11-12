@@ -105,4 +105,15 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully'], 200); 
     }
+
+    public function filterByCategory($category)
+{
+    $validCategories = ['haut', 'bas', 'accessoires'];
+    if (!in_array($category, $validCategories)) {
+        return response()->json(['error' => 'Invalid category'], 400);
+    }
+    $products = Product::where('category', $category)->get();
+    return response()->json($products, 200);
+}
+
 }
