@@ -18,7 +18,6 @@ Ce projet est un site e-commerce conçu pour offrir une expérience de shopping 
 
 ## Installation
 **Clone le dépôt** :
-   ```bash
    git clone https://github.com/marsevilla/ecommercevet.git
    cd ecommercevet
 
