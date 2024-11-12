@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import '../Styles/main.scss';
 
 const Account = () => {
@@ -7,22 +8,19 @@ const Account = () => {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
-    username: "",
+    name: "",
     email: "",
-    address: "",
-    phone: "",
   });
 
   const [loginDetails, setLoginDetails] = useState({
-    username: "",
+    name: "",
     password: "",
   });
 
   const [registerDetails, setRegisterDetails] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   useEffect(() => {
@@ -51,51 +49,61 @@ const Account = () => {
     }));
   };
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (loginDetails.username && loginDetails.password) {
-      const mockUserInfo = {
-        username: loginDetails.username,
-        email: "johndoe@example.com",
-        address: "123 Main Street, New York, NY 10001",
-        phone: "123-456-7890",
-      };
+    if (loginDetails.email && loginDetails.password) {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          email: loginDetails.email,
+          password: loginDetails.password,
+        });
 
-      setUserInfo(mockUserInfo);
-      setIsLoggedIn(true);
+        const { user } = response.data;
 
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userInfo", JSON.stringify(mockUserInfo));
+        setUserInfo(user);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userInfo", JSON.stringify(user));
+
+        alert("Connexion réussie!");
+      } catch (err) {
+        alert("Erreur de connexion, veuillez vérifier vos informations.");
+      }
     } else {
-      alert("Please enter valid credentials!");
+      alert("Veuillez entrer des informations valides.");
     }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (
-      registerDetails.username &&
+      registerDetails.name &&
       registerDetails.email &&
-      registerDetails.password === registerDetails.confirmPassword
+      registerDetails.password
     ) {
-      alert("Registration successful!");
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/register', {
+          name: registerDetails.name,
+          email: registerDetails.email,
+          password: registerDetails.password,
+        });
 
-      const mockUserInfo = {
-        username: registerDetails.username,
-        email: registerDetails.email,
-        address: "",
-        phone: "",
-      };
+        const { user } = response.data;
 
-      setUserInfo(mockUserInfo);
-      setIsLoggedIn(true);
+        setUserInfo(user);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userInfo", JSON.stringify(user));
 
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userInfo", JSON.stringify(mockUserInfo));
+        alert("Votre compte a bien été créé!");
+      } catch (err) {
+        alert("Erreur lors de l'inscription, veuillez vérifier vos informations.");
+      }
     } else {
-      alert("Passwords do not match or missing fields!");
+      alert("Tous les champs sont requis!");
     }
   };
 
@@ -103,20 +111,17 @@ const Account = () => {
     e.preventDefault();
     setIsLoggedIn(false);
     setUserInfo({
-      username: "",
+      name: "",
       email: "",
-      address: "",
-      phone: "",
     });
     setLoginDetails({
-      username: "",
+      email: "",
       password: "",
     });
     setRegisterDetails({
-      username: "",
+      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     });
 
     localStorage.removeItem("isLoggedIn");
@@ -131,11 +136,35 @@ const Account = () => {
     }));
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setIsEditing(false);
 
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/user?_method=PUT', 
+        {
+          name: userInfo.name,
+          email: userInfo.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      const { user } = response.data;
+  
+      setUserInfo(user);
+      localStorage.setItem("userInfo", JSON.stringify(user));
+  
+      alert("Profil mis à jour avec succès !");
+    } catch (err) {
+      alert("Erreur lors de la mise à jour du profil.");
+    }
   };
 
   if (!isLoggedIn) {
@@ -143,18 +172,18 @@ const Account = () => {
       <div className="account-container">
         {isRegistering ? (
           <>
-            <h1>Register</h1>
+            <h1 className="text-3xl">Créer un compte</h1>
             <form onSubmit={handleRegister}>
-              <label htmlFor="register-username">Username:</label>
+              <label htmlFor="register-username">Nom d'utilisateur:</label>
               <input
                 type="text"
                 id="register-username"
-                name="username"
-                value={registerDetails.username}
+                name="name"
+                value={registerDetails.name}
                 onChange={handleRegisterChange}
                 required
               />
-              <label htmlFor="register-email">Email:</label>
+              <label htmlFor="register-email">E-mail:</label>
               <input
                 type="email"
                 id="register-email"
@@ -163,7 +192,7 @@ const Account = () => {
                 onChange={handleRegisterChange}
                 required
               />
-              <label htmlFor="register-password">Password:</label>
+              <label htmlFor="register-password">Mot de passe:</label>
               <input
                 type="password"
                 id="register-password"
@@ -172,41 +201,32 @@ const Account = () => {
                 onChange={handleRegisterChange}
                 required
               />
-              <label htmlFor="register-confirm-password">Confirm Password:</label>
-              <input
-                type="password"
-                id="register-confirm-password"
-                name="confirmPassword"
-                value={registerDetails.confirmPassword}
-                onChange={handleRegisterChange}
-                required
-              />
-              <button type="submit" className="btn register">
-                Register
+              <button type="submit" className="btn register mb-5">
+                Créer mon compte
               </button>
               <button
                 type="button"
                 className="btn switch"
                 onClick={() => setIsRegistering(false)}
               >
-                Back to Login
+                Connexion
               </button>
             </form>
           </>
         ) : (
           <>
-            <h1>Log In</h1>
+            <h1 className="text-3xl">Connexion</h1>
             <form onSubmit={handleLogin}>
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="email">E-mail:</label>
               <input
-                type="text"
-                id="username"
-                name="username"
-                value={loginDetails.username}
+                type="email"
+                id="email"
+                name="email"
+                value={loginDetails.email}
                 onChange={handleLoginChange}
                 required
               />
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password">Mot de passe:</label>
               <input
                 type="password"
                 id="password"
@@ -215,15 +235,15 @@ const Account = () => {
                 onChange={handleLoginChange}
                 required
               />
-              <button type="submit" className="btn login">
-                Log In
+              <button type="submit" className="btn login mb-5">
+                Connexion
               </button>
               <button
                 type="button"
                 className="btn switch"
                 onClick={() => setIsRegistering(true)}
               >
-                Register
+                Créer un compte
               </button>
             </form>
           </>
@@ -234,15 +254,15 @@ const Account = () => {
 
   return (
     <div className="account-container">
-      <h1>My Account</h1>
+      <h1 className="text-3xl">Mon compte</h1>
       {isEditing ? (
         <form onSubmit={handleSave}>
           <div className="form-group">
-            <label>Username:</label>
+            <label>Nom d'utilisateur:</label>
             <input
               type="text"
-              name="username"
-              value={userInfo.username}
+              name="name"
+              value={userInfo.name}
               onChange={handleChange}
             />
           </div>
@@ -255,65 +275,41 @@ const Account = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="form-group">
-            <label>Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={userInfo.address}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone:</label>
-            <input
-              type="text"
-              name="phone"
-              value={userInfo.phone}
-              onChange={handleChange}
-            />
-          </div>
           <div className="button-group">
-            <button type="submit" className="btn save">
-              Save Changes
+            <button type="submit" className="btn save mb-5">
+              Enregistrer les modifications
             </button>
             <button
               type="button"
               className="btn cancel"
               onClick={() => setIsEditing(false)}
             >
-              Cancel
+              Annuler
             </button>
           </div>
         </form>
       ) : (
         <div className="personal-info">
           <div className="info-item">
-            <strong>Username:</strong> {userInfo.username}
+            <strong>Nom d'utilisateur:</strong> {userInfo.name}
           </div>
           <div className="info-item">
             <strong>Email:</strong> {userInfo.email}
-          </div>
-          <div className="info-item">
-            <strong>Address:</strong> {userInfo.address}
-          </div>
-          <div className="info-item">
-            <strong>Phone:</strong> {userInfo.phone}
           </div>
           <div className="button-group">
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="btn edit"
+              className="btn edit mb-5"
             >
-              Edit Info
+              Modifier les informations
             </button>
             <button
               type="button"
               onClick={handleLogout}
               className="btn logout"
             >
-              Log Out
+              Déconnexion
             </button>
           </div>
         </div>

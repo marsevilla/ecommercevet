@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -25,5 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/orders/{id}', [OrderController::class, 'update']);
         Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
         Route::post('/payment', [PaymentController::class, 'createPayment']);
+        Route::put('/user', [UserController::class, 'updateProfile']);
+
     });
 
