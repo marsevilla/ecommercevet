@@ -59,7 +59,7 @@ body {
 
       &:focus {
         border-color: $primary-color;
-        box-shadow: 0 0 4px rgba(217, 157, 191, 0.5);
+        box-shadow: 0 0 4px #efcad0;
       }
     }
 
@@ -78,7 +78,7 @@ body {
       }
 
       &.save {
-        background-color: #4caf50;
+        background-color: #efcad0;
       }
 
       &.cancel {
