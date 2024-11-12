@@ -61,11 +61,13 @@ const Account = () => {
         });
 
         const { user } = response.data;
-
+        console.log(response.data);
         setUserInfo(user);
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userInfo", JSON.stringify(user));
+        localStorage.setItem("token", response.data.token);
+
 
         alert("Connexion réussie!");
       } catch (err) {
@@ -90,13 +92,6 @@ const Account = () => {
           email: registerDetails.email,
           password: registerDetails.password,
         });
-
-        const { user } = response.data;
-
-        setUserInfo(user);
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userInfo", JSON.stringify(user));
 
         alert("Votre compte a bien été créé!");
       } catch (err) {
@@ -126,6 +121,8 @@ const Account = () => {
 
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
+
   };
 
   const handleChange = (e) => {
