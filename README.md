@@ -2,6 +2,12 @@
 
 Ce projet est un site e-commerce conçu pour offrir une expérience de shopping en ligne pour des vêtements féminins. Le back-end est construit avec Laravel, tandis que le front-end utilise React avec Vite, et le style est géré avec Tailwind CSS.
 
+## Fonctionnalités
+- Inscription et connexion des utilisateurs
+- Navigation et filtrage des produits
+- Ajout au panier
+- Processus de paiement
+
 ## Technologies Utilisées
 
 - **Back-end** : [Laravel](https://laravel.com/)
@@ -39,11 +45,6 @@ npm install
 
 Duplique le fichier .env.example et renomme-le en .env.
 Mettez à jour les paramètres de la base de données et d'autres configurations nécessaires.
-
-Générer la clé d'application :
-```bash
-  php artisan key:generate
-```
   
 Migrations de la base de données :
 ```bash
