@@ -18,7 +18,7 @@ const ContactPage = () => {
       <section className="contact-info">
         <div className="contact-item">
           <i className="icon-location"></i>
-          <h3>Addresse</h3>
+          <h3>Adresse</h3>
           <p>400 University Drive Suite 200 Coral Gables, FL 33134 USA</p>
         </div>
         <div className="contact-item">
