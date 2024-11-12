@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
 
 
@@ -13,6 +14,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/productcategory/{category}', [ProductController::class, 'filterByCategory']);
+
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -26,7 +28,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/orders/{id}', [OrderController::class, 'update']);
         Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
         Route::post('/payment', [PaymentController::class, 'createPayment']);
+        Route::get('cart', [OrderController::class, 'showCart']);
+        Route::post('cart/add', [OrderProductController::class, 'store']);
+        Route::post('cart/checkout/{orderId}', [OrderController::class, 'checkout']);
+        Route::put('cart/update/{orderProductId}', [OrderProductController::class, 'updateQuantity']);
+        Route::delete('cart/remove/{orderProductId}', [OrderProductController::class, 'removeProduct']);
         Route::put('/user', [UserController::class, 'updateProfile']);
-
     });
 
