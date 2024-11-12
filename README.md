@@ -36,6 +36,7 @@ npm install
 ```
 
 **Configurer le fichier .env** :
+
 Duplique le fichier .env.example et renomme-le en .env.
 Mettez à jour les paramètres de la base de données et d'autres configurations nécessaires.
 
