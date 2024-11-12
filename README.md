@@ -18,31 +18,46 @@ Ce projet est un site e-commerce conçu pour offrir une expérience de shopping 
 
 ## Installation
 **Clone le dépôt** :
+```bash
    git clone https://github.com/marsevilla/ecommercevet.git
    cd ecommercevet
+```
 
-- installer les dépendances backend :
+**installer les dépendances backend** :
+```bash
 cd Ecommercevet-backend
 composer install
--installer les dépendances frontend :
+```
+
+**installer les dépendances frontend** :
+```bash
 cd ../Ecommercevet
 npm install
+```
 
-Configurer le fichier .env :
+**Configurer le fichier .env** :
 Duplique le fichier .env.example et renomme-le en .env.
 Mettez à jour les paramètres de la base de données et d'autres configurations nécessaires.
 
 Générer la clé d'application :
+```bash
   php artisan key:generate
+```
   
 Migrations de la base de données :
+```bash
   php artisan migrate
+```
   
 ## Démarrage du Projet
 Démarrer le back-end
 Dans le dossier backend, exécute la commande suivante pour démarrer le serveur de développement Laravel :
+```bash
   php artisan serve
+```
 
 Démarrer le front-end
 Dans le dossier frontend, exécute la commande suivante pour démarrer Vite :
+```bash
   npm run dev
+```
