@@ -3,86 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-
-    public function index()
+    public function showCart()
     {
-        $orders = Auth::user()->orders()->with('order_products')->get();
-        return response()->json($orders, 200);
-    }
+        $order = Order::firstOrCreate(
+            ['user_id' => Auth::id(), 'status' => 'en attente'],
+            ['date' => now(), 'total_amount' => 0]
+        );
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'order_products' => 'required|array',
-            'order_products.*.product_id' => 'required|exists:products,id',
-            'order_products.*.quantity' => 'required|integer',
-            'total_amount' => 'required',
-        ]);
-
-        $order = Order::create([
-            'user_id' => Auth::id(),
-            'date' => now(),
-            'status' => 'en attente',
-            'total_amount' => $validated['total_amount'],
-        ]);
-
-        foreach ($validated['order_products'] as $orderProduct) {
-            $order->orderProducts()->create([
-                'product_id' => $orderProduct['product_id'],
-                'quantity' => $orderProduct['quantity'],
-            ]);
-        }
-
-        return response()->json($order->load('orderProducts'), 201);
-    }
-
-
-    public function show($id)
-    {
-        $order = Auth::user()->orders()->with('orderProducts')->find($id);
-
-        if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
-        }
-
+        $order->load('orderProducts.product'); 
         return response()->json($order, 200);
     }
 
-
-    public function update(Request $request, $id)
+    public function updateTotalAmount($order)
     {
-        $order = Auth::user()->orders()->find($id);
+        $totalAmount = $order->orderProducts->sum(function ($orderProduct) {
+            return $orderProduct->price * $orderProduct->quantity;
+        });
 
-        if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
-        }
-
-        $validated = $request->validate([
-            'status' => 'required|in:en attente,confirmé,annulé',
-        ]);
-
-        $order->update(['status' => $validated['status']]);
-
-        return response()->json($order, 200);
+        $order->update(['total_amount' => $totalAmount]);
     }
 
-
-    public function destroy($id)
+    public function checkout(Request $request, $orderId)
     {
-        $order = Auth::user()->orders()->find($id);
+        $order = Order::findOrFail($orderId);
 
-        if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+        if ($order->status != 'en attente') {
+            return response()->json(['error' => 'Order is already confirmed or canceled'], 400);
         }
-
-        $order->delete();
-
-        return response()->json(['message' => 'Order deleted successfully'], 200);
+        $order->update(['status' => 'confirmé']);
+        return response()->json(['message' => 'Order confirmed successfully'], 200);
     }
 }
