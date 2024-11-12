@@ -5,6 +5,7 @@ import BannerBoutique from "../assets/bannerBoutique.png";
 function Boutique() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [hoveredProductId, setHoveredProductId] = useState(null); 
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,6 +23,21 @@ function Boutique() {
 
     fetchProducts();
   }, [selectedCategory]);
+
+  const addToCart = async (productId) => {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/cart/add",
+        { product_id: productId, quantity: 1 },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert("Produit ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+    }
+  };
 
   return (
     <main className="p-4">
@@ -75,11 +91,26 @@ function Boutique() {
 
       <section className="boutiqueProduct grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <div key={product.id} className="productCard p-4 bg-white shadow-md rounded-lg">
+          <div 
+            key={product.id} 
+            className="productCard p-4 bg-white shadow-md rounded-lg relative"
+            onMouseEnter={() => setHoveredProductId(product.id)} 
+            onMouseLeave={() => setHoveredProductId(null)} 
+          >
             <img src={product.image_url} alt={product.name} className="w-full h-40 object-cover rounded-md mb-4" />
             <h2 className="text-lg font-semibold">{product.name}</h2>
             <p className="text-gray-600">{product.description}</p>
             <p className="text-blue-500 font-bold">Prix : {product.price} €</p>
+            {hoveredProductId === product.id && (
+              <div className="productCard__container absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
+                <button 
+                  className="productCard__btn bg-white text-black py-2 px-4 rounded" 
+                  onClick={() => addToCart(product.id)}
+                >
+                  Ajouter au panier
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </section>
