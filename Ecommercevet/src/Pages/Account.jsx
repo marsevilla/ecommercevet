@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import '../Styles/main.scss';
 
-
 const Account = () => {
-  // State for login status
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Initially not logged in
-  const [isEditing, setIsEditing] = useState(false); // To toggle edit mode
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
 
-  // State for user information
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
@@ -15,13 +13,18 @@ const Account = () => {
     phone: "",
   });
 
-  // State for login credentials
   const [loginDetails, setLoginDetails] = useState({
     username: "",
     password: "",
   });
 
-  // Load login state from localStorage on mount
+  const [registerDetails, setRegisterDetails] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   useEffect(() => {
     const storedLoginState = localStorage.getItem("isLoggedIn");
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -32,7 +35,6 @@ const Account = () => {
     }
   }, []);
 
-  // Handle login form input change
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginDetails((prevDetails) => ({
@@ -41,23 +43,28 @@ const Account = () => {
     }));
   };
 
-  // Handle login submission
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Add validation or backend API logic here
     if (loginDetails.username && loginDetails.password) {
       const mockUserInfo = {
         username: loginDetails.username,
-        email: "johndoe@example.com", // Mock email
-        address: "123 Main Street, New York, NY 10001", // Mock address
-        phone: "123-456-7890", // Mock phone
+        email: "johndoe@example.com",
+        address: "123 Main Street, New York, NY 10001",
+        phone: "123-456-7890",
       };
 
       setUserInfo(mockUserInfo);
       setIsLoggedIn(true);
 
-      // Save login state to localStorage
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userInfo", JSON.stringify(mockUserInfo));
     } else {
@@ -65,27 +72,57 @@ const Account = () => {
     }
   };
 
-  // Handle logout
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (
+      registerDetails.username &&
+      registerDetails.email &&
+      registerDetails.password === registerDetails.confirmPassword
+    ) {
+      alert("Registration successful!");
+
+      const mockUserInfo = {
+        username: registerDetails.username,
+        email: registerDetails.email,
+        address: "",
+        phone: "",
+      };
+
+      setUserInfo(mockUserInfo);
+      setIsLoggedIn(true);
+
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userInfo", JSON.stringify(mockUserInfo));
+    } else {
+      alert("Passwords do not match or missing fields!");
+    }
+  };
+
   const handleLogout = (e) => {
     e.preventDefault();
-    setIsLoggedIn(false); // Reset login status
+    setIsLoggedIn(false);
     setUserInfo({
       username: "",
       email: "",
       address: "",
       phone: "",
-    }); // Clear user info
+    });
     setLoginDetails({
       username: "",
       password: "",
-    }); // Clear login details
+    });
+    setRegisterDetails({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
 
-    // Remove login state from localStorage
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userInfo");
   };
 
-  // Handle user info changes during edit
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInfo((prevInfo) => ({
@@ -94,48 +131,107 @@ const Account = () => {
     }));
   };
 
-  // Handle save changes
   const handleSave = (e) => {
     e.preventDefault();
     setIsEditing(false);
 
-    // Update user info in localStorage
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
   };
 
-  // Render login form if not logged in
   if (!isLoggedIn) {
     return (
       <div className="account-container">
-        <h1>Log In</h1>
-        <form onSubmit={handleLogin}>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={loginDetails.username}
-            onChange={handleLoginChange}
-            required
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={loginDetails.password}
-            onChange={handleLoginChange}
-            required
-          />
-          <button type="submit" className="btn login">
-            Log In
-          </button>
-        </form>
+        {isRegistering ? (
+          <>
+            <h1>Register</h1>
+            <form onSubmit={handleRegister}>
+              <label htmlFor="register-username">Username:</label>
+              <input
+                type="text"
+                id="register-username"
+                name="username"
+                value={registerDetails.username}
+                onChange={handleRegisterChange}
+                required
+              />
+              <label htmlFor="register-email">Email:</label>
+              <input
+                type="email"
+                id="register-email"
+                name="email"
+                value={registerDetails.email}
+                onChange={handleRegisterChange}
+                required
+              />
+              <label htmlFor="register-password">Password:</label>
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                value={registerDetails.password}
+                onChange={handleRegisterChange}
+                required
+              />
+              <label htmlFor="register-confirm-password">Confirm Password:</label>
+              <input
+                type="password"
+                id="register-confirm-password"
+                name="confirmPassword"
+                value={registerDetails.confirmPassword}
+                onChange={handleRegisterChange}
+                required
+              />
+              <button type="submit" className="btn register">
+                Register
+              </button>
+              <button
+                type="button"
+                className="btn switch"
+                onClick={() => setIsRegistering(false)}
+              >
+                Back to Login
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h1>Log In</h1>
+            <form onSubmit={handleLogin}>
+              <label htmlFor="username">Username:</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={loginDetails.username}
+                onChange={handleLoginChange}
+                required
+              />
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={loginDetails.password}
+                onChange={handleLoginChange}
+                required
+              />
+              <button type="submit" className="btn login">
+                Log In
+              </button>
+              <button
+                type="button"
+                className="btn switch"
+                onClick={() => setIsRegistering(true)}
+              >
+                Register
+              </button>
+            </form>
+          </>
+        )}
       </div>
     );
   }
 
-  // Render personal info if logged in
   return (
     <div className="account-container">
       <h1>My Account</h1>
@@ -214,7 +310,7 @@ const Account = () => {
             </button>
             <button
               type="button"
-              onClick={handleLogout} // Logs out only on button click
+              onClick={handleLogout}
               className="btn logout"
             >
               Log Out
