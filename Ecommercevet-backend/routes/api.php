@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\UserController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -32,5 +33,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('cart/checkout/{orderId}', [OrderController::class, 'checkout']);
         Route::put('cart/update/{orderProductId}', [OrderProductController::class, 'updateQuantity']);
         Route::delete('cart/remove/{orderProductId}', [OrderProductController::class, 'removeProduct']);
+        Route::put('/user', [UserController::class, 'updateProfile']);
     });
 

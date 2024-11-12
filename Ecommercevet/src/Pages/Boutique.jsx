@@ -6,6 +6,7 @@ function Boutique() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -23,6 +24,7 @@ function Boutique() {
     fetchProducts();
   }, [selectedCategory]);
 
+
   return (
     <main className="p-4">
       <section className="boutiqueBanner mb-8">
@@ -32,6 +34,7 @@ function Boutique() {
           <form className="flex items-center space-x-4">
             <label>Voir uniquement : </label>
             <div className="flex space-x-2">
+
               <input 
                 type="radio" 
                 name="category" 
@@ -67,6 +70,7 @@ function Boutique() {
                 onChange={() => setSelectedCategory("accessoires")} 
               />
               <label>Accessoires</label>
+
             </div>
           </form>
           <input type="text" placeholder="Rechercher" className="mt-4 md:mt-0 p-2 border rounded-md" />
@@ -76,7 +80,9 @@ function Boutique() {
       <section className="boutiqueProduct grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <div key={product.id} className="productCard p-4 bg-white shadow-md rounded-lg">
+
             <img src={product.image_url} alt={product.name} className="w-full h-40 object-cover rounded-md mb-4" />
+
             <h2 className="text-lg font-semibold">{product.name}</h2>
             <p className="text-gray-600">{product.description}</p>
             <p className="text-blue-500 font-bold">Prix : {product.price} €</p>
@@ -88,5 +94,6 @@ function Boutique() {
     </main>
   );
 }
+
 
 export default Boutique;
