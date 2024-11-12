@@ -6,6 +6,11 @@
 @import "./composant/productCard";
 @import "./page/home";
 @import "./page/boutique";
+@import "./page/singleproduct";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 /* Variables */
 $primary-color: #d99dbf; /* Pink accent color */
