@@ -21,6 +21,7 @@ function App() {
         <Route path="/product/:id" element={<SingleProduct/>} />
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/Account" element={<Account />} />
         <Route path="/legals" element={<Legals />} />
         <Route path='/terms' element={<GeneralConditionsOfSale/>} />
       </Routes>
