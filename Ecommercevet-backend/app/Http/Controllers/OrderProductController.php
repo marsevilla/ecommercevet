@@ -56,4 +56,24 @@ class OrderProductController extends Controller
 
         return response()->json(['message' => 'Order product deleted successfully'], 200);
     }
+
+    public function updateQuantity(Request $request, $orderProductId)
+    {
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $orderProduct = OrderProduct::find($orderProductId);
+
+        if (!$orderProduct) {
+            return response()->json(['error' => 'Produit non trouvé dans le panier'], 404);
+        }
+
+        $orderProduct->quantity = $validated['quantity'];
+        $orderProduct->save();
+
+        return response()->json(['message' => 'Quantité mise à jour avec succès'], 200);
+    }
+
+
 }

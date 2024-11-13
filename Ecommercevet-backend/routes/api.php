@@ -34,5 +34,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('cart/update/{orderProductId}', [OrderProductController::class, 'updateQuantity']);
         Route::delete('cart/remove/{orderProductId}', [OrderProductController::class, 'removeProduct']);
         Route::put('/user', [UserController::class, 'updateProfile']);
+        
     });
 
