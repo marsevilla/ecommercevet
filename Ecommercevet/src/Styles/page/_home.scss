@@ -66,18 +66,67 @@
   background-color: $secondaryColor;
   display: flex;
   justify-content: flex-start;
+
   &__container {
     width: 30%;
     align-self: center;
     padding-left: 7%;
+
     &--title {
       text-align: left;
+      font-size: 2.5rem;
+      color: #d8a3aa;
+      font-weight: bold;
     }
+
     &--txt {
       margin-top: 10%;
       margin-bottom: 5%;
       font-size: 16px;
       color: black;
+    }
+
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  &__carousel {
+    width: 70%;
+    align-self: center;
+    padding: 0 5%;
+
+    .slick-slider {
+      position: relative;
+
+      .slick-dots {
+        bottom: -20px;
+
+        li button:before {
+          font-size: 10px;
+          color: #ccc; // Default dot color
+        }
+
+        li.slick-active button:before {
+          color: #d8a3aa; // Active dot color
+        }
+      }
+
+      .slick-arrow {
+        z-index: 2;
+
+        &:before {
+          font-size: 20px;
+          color: #d8a3aa; // Arrow color
+        }
+      }
+    }
+
+    img {
+      width: 40%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
   }
 }

@@ -7,6 +7,8 @@ import CategoriesCard from "../Components/CategoriesCard";
 import ProductCard from "../Components/productCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Lookbook from "../Components/Lookbook";
+
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -16,7 +18,7 @@ function Home() {
       try {
         const url = "http://localhost:8000/api/products";
         const response = await axios.get(url);
-        setProducts(response.data); 
+        setProducts(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);
       }
@@ -72,17 +74,7 @@ function Home() {
           <WhiteButton />
         </div>
       </section>
-      <section className="lookBook">
-        <div className="lookBook__container">
-          <h2 className="title lookBook__container--title">Lookbook</h2>
-          <p className="lookBook__container--txt">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta,
-            doloremque ipsa at ad ex natus.
-          </p>
-          <WhiteButton />
-        </div>
-        <div className="lookBook__caroussel">caroussel</div>
-      </section>
+      <Lookbook />
     </main>
   );
 }
