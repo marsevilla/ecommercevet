@@ -6,7 +6,7 @@ import ProductCard from "../Components/productCard";
 function Boutique() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const [hoveredProductId, setHoveredProductId] = useState(null); 
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,6 +25,21 @@ function Boutique() {
     fetchProducts();
   }, [selectedCategory]);
 
+  const addToCart = async (productId) => {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/cart/add",
+        { product_id: productId, quantity: 1 },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert("Produit ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+      alert("Une erreur est survenue lors de l'ajout au panier.");
+    }
+  };
 
   return (
     <main className="">
@@ -35,7 +50,6 @@ function Boutique() {
           <form className="flex items-center space-x-4">
             <label>Voir uniquement : </label>
             <div className="flex space-x-2">
-
               <input 
                 type="radio" 
                 name="category" 
@@ -71,7 +85,6 @@ function Boutique() {
                 onChange={() => setSelectedCategory("accessoires")} 
               />
               <label>Accessoires</label>
-
             </div>
           </form>
           <input type="text" placeholder="Rechercher" className="mt-4 md:mt-0 p-2 border rounded-md" />
@@ -88,6 +101,5 @@ function Boutique() {
     </main>
   );
 }
-
 
 export default Boutique;
