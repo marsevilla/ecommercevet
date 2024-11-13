@@ -16,10 +16,12 @@ class OrderController extends Controller
             ['user_id' => Auth::id(), 'status' => 'en attente'],
             ['date' => now(), 'total_amount' => 0]
         );
-
-        $order->load('orderProducts.product'); 
+    
+        $order->load('orderProducts.product');
+        \Log::info('Commande récupérée:', $order->toArray());
         return response()->json($order, 200);
     }
+    
 
     public function updateTotalAmount($order)
     {
