@@ -5,6 +5,7 @@ import BannerBoutique from "../assets/bannerBoutique.png";
 function Boutique() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [hoveredProductId, setHoveredProductId] = useState(null); 
 
 
   useEffect(() => {
@@ -86,6 +87,16 @@ function Boutique() {
             <h2 className="text-lg font-semibold">{product.name}</h2>
             <p className="text-gray-600">{product.description}</p>
             <p className="text-blue-500 font-bold">Prix : {product.price} €</p>
+            {hoveredProductId === product.id && (
+              <div className="productCard__container absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
+                <button 
+                  className="productCard__btn bg-white text-black py-2 px-4 rounded" 
+                  onClick={() => addToCart(product.id)}
+                >
+                  Ajouter au panier
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </section>
