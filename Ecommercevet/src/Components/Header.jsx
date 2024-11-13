@@ -18,7 +18,7 @@ function Header() {
       </nav>
       <div className="header-icons">
         <a href="/account" className="icon"><i className="fa fa-user"></i></a>
-        <a href="/cart" className="icon"><i className="fa fa-shopping-cart"></i></a>
+        <a href="/Panier" className="icon"><i className="fa fa-shopping-cart"></i></a>
       </div>
     </header>
   );
