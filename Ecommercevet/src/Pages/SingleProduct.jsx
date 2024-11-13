@@ -9,10 +9,9 @@ const SingleProduct = () => {
   const [error, setError] = useState(null);
   const [size, setSize] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-
-
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
@@ -31,6 +30,26 @@ const SingleProduct = () => {
 
   const handleSizeClick = (size) => {
     setSelectedSize(size);
+  };
+
+  const handleQuantityChange = (e) => {
+    setQuantity(Number(e.target.value));
+  };
+
+  const addToCart = async (productId) => {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/cart/add",
+        { product_id: productId, quantity },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert("Produit ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+      alert("Une erreur est survenue lors de l'ajout au panier.");
+    }
   };
 
   if (loading) return <div>Chargement...</div>;
@@ -67,7 +86,27 @@ const SingleProduct = () => {
                   </div>
                 </div>
               )}
-
+              <div className='mt-4'>
+                <label htmlFor="quantity" className='text-base mr-2'>Quantité :</label>
+                <select 
+                  id="quantity" 
+                  value={quantity} 
+                  onChange={handleQuantityChange} 
+                  className="border p-2 rounded"
+                >
+                  {[...Array(10).keys()].map((num) => (
+                    <option key={num + 1} value={num + 1}>
+                      {num + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button 
+                className="py-2 px-4 rounded mt-4 text-white" 
+                onClick={() => addToCart(product.id)}
+              >
+                Ajouter au panier
+              </button>
             </div>
           </section>
         ) : (
