@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import '../Styles/main.scss';
 
-
 const Account = () => {
-  // State for login status
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Initially not logged in
-  const [isEditing, setIsEditing] = useState(false); // To toggle edit mode
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
 
-  // State for user information
   const [userInfo, setUserInfo] = useState({
-    username: "",
+    name: "",
     email: "",
-    address: "",
-    phone: "",
   });
 
-  // State for login credentials
   const [loginDetails, setLoginDetails] = useState({
-    username: "",
+    name: "",
     password: "",
   });
 
-  // Load login state from localStorage on mount
+  const [registerDetails, setRegisterDetails] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   useEffect(() => {
     const storedLoginState = localStorage.getItem("isLoggedIn");
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -32,7 +33,6 @@ const Account = () => {
     }
   }, []);
 
-  // Handle login form input change
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginDetails((prevDetails) => ({
@@ -41,51 +41,90 @@ const Account = () => {
     }));
   };
 
-  // Handle login submission
-  const handleLogin = (e) => {
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Add validation or backend API logic here
-    if (loginDetails.username && loginDetails.password) {
-      const mockUserInfo = {
-        username: loginDetails.username,
-        email: "johndoe@example.com", // Mock email
-        address: "123 Main Street, New York, NY 10001", // Mock address
-        phone: "123-456-7890", // Mock phone
-      };
+    if (loginDetails.email && loginDetails.password) {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          email: loginDetails.email,
+          password: loginDetails.password,
+        });
 
-      setUserInfo(mockUserInfo);
-      setIsLoggedIn(true);
+        const { user } = response.data;
+        console.log(response.data);
+        setUserInfo(user);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userInfo", JSON.stringify(user));
+        localStorage.setItem("token", response.data.token);
 
-      // Save login state to localStorage
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userInfo", JSON.stringify(mockUserInfo));
+
+        alert("Connexion réussie!");
+      } catch (err) {
+        alert("Erreur de connexion, veuillez vérifier vos informations.");
+      }
     } else {
-      alert("Please enter valid credentials!");
+      alert("Veuillez entrer des informations valides.");
     }
   };
 
-  // Handle logout
-  const handleLogout = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setIsLoggedIn(false); // Reset login status
-    setUserInfo({
-      username: "",
-      email: "",
-      address: "",
-      phone: "",
-    }); // Clear user info
-    setLoginDetails({
-      username: "",
-      password: "",
-    }); // Clear login details
 
-    // Remove login state from localStorage
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userInfo");
+    if (
+      registerDetails.name &&
+      registerDetails.email &&
+      registerDetails.password
+    ) {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/register', {
+          name: registerDetails.name,
+          email: registerDetails.email,
+          password: registerDetails.password,
+        });
+
+        alert("Votre compte a bien été créé!");
+      } catch (err) {
+        alert("Erreur lors de l'inscription, veuillez vérifier vos informations.");
+      }
+    } else {
+      alert("Tous les champs sont requis!");
+    }
   };
 
-  // Handle user info changes during edit
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setIsLoggedIn(false);
+    setUserInfo({
+      name: "",
+      email: "",
+    });
+    setLoginDetails({
+      email: "",
+      password: "",
+    });
+    setRegisterDetails({
+      name: "",
+      email: "",
+      password: "",
+    });
+
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
+
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInfo((prevInfo) => ({
@@ -94,59 +133,133 @@ const Account = () => {
     }));
   };
 
-  // Handle save changes
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setIsEditing(false);
 
-    // Update user info in localStorage
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/user?_method=PUT', 
+        {
+          name: userInfo.name,
+          email: userInfo.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      const { user } = response.data;
+  
+      setUserInfo(user);
+      localStorage.setItem("userInfo", JSON.stringify(user));
+  
+      alert("Profil mis à jour avec succès !");
+    } catch (err) {
+      alert("Erreur lors de la mise à jour du profil.");
+    }
   };
 
-  // Render login form if not logged in
   if (!isLoggedIn) {
     return (
       <div className="account-container">
-        <h1>Log In</h1>
-        <form onSubmit={handleLogin}>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={loginDetails.username}
-            onChange={handleLoginChange}
-            required
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={loginDetails.password}
-            onChange={handleLoginChange}
-            required
-          />
-          <button type="submit" className="btn login">
-            Log In
-          </button>
-        </form>
+        {isRegistering ? (
+          <>
+            <h1 className="text-3xl">Créer un compte</h1>
+            <form onSubmit={handleRegister}>
+              <label htmlFor="register-username">Nom d'utilisateur:</label>
+              <input
+                type="text"
+                id="register-username"
+                name="name"
+                value={registerDetails.name}
+                onChange={handleRegisterChange}
+                required
+              />
+              <label htmlFor="register-email">E-mail:</label>
+              <input
+                type="email"
+                id="register-email"
+                name="email"
+                value={registerDetails.email}
+                onChange={handleRegisterChange}
+                required
+              />
+              <label htmlFor="register-password">Mot de passe:</label>
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                value={registerDetails.password}
+                onChange={handleRegisterChange}
+                required
+              />
+              <button type="submit" className="btn register mb-5">
+                Créer mon compte
+              </button>
+              <button
+                type="button"
+                className="btn switch"
+                onClick={() => setIsRegistering(false)}
+              >
+                Connexion
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl">Connexion</h1>
+            <form onSubmit={handleLogin}>
+              <label htmlFor="email">E-mail:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={loginDetails.email}
+                onChange={handleLoginChange}
+                required
+              />
+              <label htmlFor="password">Mot de passe:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={loginDetails.password}
+                onChange={handleLoginChange}
+                required
+              />
+              <button type="submit" className="btn login mb-5">
+                Connexion
+              </button>
+              <button
+                type="button"
+                className="btn switch"
+                onClick={() => setIsRegistering(true)}
+              >
+                Créer un compte
+              </button>
+            </form>
+          </>
+        )}
       </div>
     );
   }
 
-  // Render personal info if logged in
   return (
     <div className="account-container">
-      <h1>My Account</h1>
+      <h1 className="text-3xl">Mon compte</h1>
       {isEditing ? (
         <form onSubmit={handleSave}>
           <div className="form-group">
-            <label>Username:</label>
+            <label>Nom d'utilisateur:</label>
             <input
               type="text"
-              name="username"
-              value={userInfo.username}
+              name="name"
+              value={userInfo.name}
               onChange={handleChange}
             />
           </div>
@@ -159,65 +272,41 @@ const Account = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="form-group">
-            <label>Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={userInfo.address}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone:</label>
-            <input
-              type="text"
-              name="phone"
-              value={userInfo.phone}
-              onChange={handleChange}
-            />
-          </div>
           <div className="button-group">
-            <button type="submit" className="btn save">
-              Save Changes
+            <button type="submit" className="btn save mb-5">
+              Enregistrer les modifications
             </button>
             <button
               type="button"
               className="btn cancel"
               onClick={() => setIsEditing(false)}
             >
-              Cancel
+              Annuler
             </button>
           </div>
         </form>
       ) : (
         <div className="personal-info">
           <div className="info-item">
-            <strong>Username:</strong> {userInfo.username}
+            <strong>Nom d'utilisateur:</strong> {userInfo.name}
           </div>
           <div className="info-item">
             <strong>Email:</strong> {userInfo.email}
-          </div>
-          <div className="info-item">
-            <strong>Address:</strong> {userInfo.address}
-          </div>
-          <div className="info-item">
-            <strong>Phone:</strong> {userInfo.phone}
           </div>
           <div className="button-group">
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="btn edit"
+              className="btn edit mb-5"
             >
-              Edit Info
+              Modifier les informations
             </button>
             <button
               type="button"
-              onClick={handleLogout} // Logs out only on button click
+              onClick={handleLogout}
               className="btn logout"
             >
-              Log Out
+              Déconnexion
             </button>
           </div>
         </div>
