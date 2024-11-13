@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Productimg from "../assets/productimg.png";
 
-function ProductCard() {
+function ProductCard({ product }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -11,14 +11,14 @@ function ProductCard() {
       onMouseLeave={() => setHovered(false)}
     >
       <img
-        className="productCard__img"
-        src={Productimg}
-        alt="Femme portant une doudoune jaune"
+        className="productCard__img object-cover w-full"
+        src={product.image_url}
+        alt={product.name}
       />
       <div className="productCard__info">
-        <p className="productCard__info--title">Syltherine</p>
-        <p className="productCard__info--txt">Stylish cafe chair</p>
-        <p className="productCard__info--price">80€</p>
+        <p className="productCard__info--title">{product.name}</p>
+        <p className="productCard__info--txt">{product.short_description}</p>
+        <p className="productCard__info--price">{product.price} €</p>
       </div>
       {hovered && (
         <div className="productCard__container">
