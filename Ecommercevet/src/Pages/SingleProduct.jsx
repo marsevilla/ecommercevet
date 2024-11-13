@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import ProductCard from '../Components/productCard';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -9,20 +10,33 @@ const SingleProduct = () => {
   const [error, setError] = useState(null);
   const [size, setSize] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [similarProducts, setSimilarProducts] = useState([]);
+
 
   useEffect(() => {
-
-
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
         setSize(JSON.parse(response.data.size));
         setProduct(response.data);
         setLoading(false);
-        
+
+        if (response.data.category) {
+          fetchSimilarProducts(response.data.category);
+        }
       } catch (err) {
         setError(err);
         setLoading(false);
+      }
+    };
+
+    const fetchSimilarProducts = async (category) => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/productcategory/${category}`);
+        setSimilarProducts(response.data.slice(0, 4));
+      } catch (err) {
+        console.error("Erreur lors de la récupération des produits similaires :", err);
       }
     };
 
@@ -33,12 +47,32 @@ const SingleProduct = () => {
     setSelectedSize(size);
   };
 
+  const handleQuantityChange = (e) => {
+    setQuantity(Number(e.target.value));
+  };
+
+  const addToCart = async (productId) => {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/cart/add",
+        { product_id: productId, quantity },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert("Produit ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+      alert("Une erreur est survenue lors de l'ajout au panier.");
+    }
+  };
+
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur: {error.message}</div>;
 
   return (
     <>
-      <div>
+      <div className='mb-10'>
         {product ? (
           <section className='m-12 flex space-x-8 single-product-container'>
             <div>
@@ -56,8 +90,8 @@ const SingleProduct = () => {
                     {size.map((size, index) => (
                       <div
                         key={index}
-                        className={`cursor-pointer p-2 border rounded ${
-                          selectedSize === size ? 'border-black' : 'border-gray-300'
+                        className={`cursor-pointer p-2 rounded text-white ${
+                          selectedSize === size ? 'bg-fuchsia-300' : 'bg-fuchsia-200'
                         }`}
                         onClick={() => handleSizeClick(size)}
                       >
@@ -67,7 +101,27 @@ const SingleProduct = () => {
                   </div>
                 </div>
               )}
-
+              <div className='mt-4'>
+                <label htmlFor="quantity" className='text-base mr-2'>Quantité :</label>
+                <select 
+                  id="quantity" 
+                  value={quantity} 
+                  onChange={handleQuantityChange} 
+                  className="border p-2 rounded"
+                >
+                  {[...Array(10).keys()].map((num) => (
+                    <option key={num + 1} value={num + 1}>
+                      {num + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button 
+                className="py-2 px-4 rounded mt-4 text-white" 
+                onClick={() => addToCart(product.id)}
+              >
+                Ajouter au panier
+              </button>
             </div>
           </section>
         ) : (
@@ -75,9 +129,12 @@ const SingleProduct = () => {
         )}
       </div>
       <section className='m-12 same-category-container'>
-        <h2 className='text-center text-3xl'>Dans la même catégorie</h2>
-        {/* Utiliser la fonction de récupération des produits  */}
-      </section>
+        <h2 className='text-center text-3xl mb-10'>Dans la même catégorie</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {similarProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>      </section>
     </>
   );
 };

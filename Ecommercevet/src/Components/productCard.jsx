@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Productimg from "../assets/productimg.png";
 import axios from "axios";
 
 function ProductCard({ product }) {
@@ -20,12 +19,17 @@ function ProductCard({ product }) {
       alert("Une erreur est survenue lors de l'ajout au panier.");
     }
   };
+
+  const handleCardClick = () => {
+    window.location.href = `/product/${product.id}`;
+  };
   
   return (
     <div
       className="productCard"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={handleCardClick}
     >
       <img
         className="productCard__img object-cover w-full"
@@ -40,11 +44,14 @@ function ProductCard({ product }) {
       {hovered && (
         <div className="productCard__container">
           <button 
-                  className="productCard__btn bg-white text-black py-2 px-4 rounded" 
-                  onClick={() => addToCart(product.id)}
-                >
-                  Ajouter au panier
-                </button>
+            className="productCard__btn py-2 px-4 rounded" 
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart(product.id);
+            }}
+          >
+            Ajouter au panier
+          </button>
         </div>
       )}
     </div>
