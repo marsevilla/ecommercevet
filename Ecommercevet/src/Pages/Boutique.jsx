@@ -25,22 +25,6 @@ function Boutique() {
     fetchProducts();
   }, [selectedCategory]);
 
-  const addToCart = async (productId) => {
-    try {
-      await axios.post(
-        "http://localhost:8000/api/cart/add",
-        { product_id: productId, quantity: 1 },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      alert("Produit ajouté au panier !");
-    } catch (error) {
-      console.error("Erreur lors de l'ajout au panier :", error);
-      alert("Une erreur est survenue lors de l'ajout au panier.");
-    }
-  };
-
   return (
     <main className="">
       <section className="boutiqueBanner mb-8">

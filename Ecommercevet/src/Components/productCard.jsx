@@ -1,9 +1,26 @@
 import { useState } from "react";
 import Productimg from "../assets/productimg.png";
+import axios from "axios";
 
 function ProductCard({ product }) {
   const [hovered, setHovered] = useState(false);
 
+  const addToCart = async (productId) => {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/cart/add",
+        { product_id: productId, quantity: 1 },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert("Produit ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+      alert("Une erreur est survenue lors de l'ajout au panier.");
+    }
+  };
+  
   return (
     <div
       className="productCard"
@@ -22,7 +39,12 @@ function ProductCard({ product }) {
       </div>
       {hovered && (
         <div className="productCard__container">
-          <button className="productCard__btn">Ajouter au panier</button>
+          <button 
+                  className="productCard__btn bg-white text-black py-2 px-4 rounded" 
+                  onClick={() => addToCart(product.id)}
+                >
+                  Ajouter au panier
+                </button>
         </div>
       )}
     </div>
