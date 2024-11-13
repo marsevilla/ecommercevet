@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import ProductCard from '../Components/productCard';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -10,6 +11,8 @@ const SingleProduct = () => {
   const [size, setSize] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [similarProducts, setSimilarProducts] = useState([]);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -18,10 +21,22 @@ const SingleProduct = () => {
         setSize(JSON.parse(response.data.size));
         setProduct(response.data);
         setLoading(false);
-        
+
+        if (response.data.category) {
+          fetchSimilarProducts(response.data.category);
+        }
       } catch (err) {
         setError(err);
         setLoading(false);
+      }
+    };
+
+    const fetchSimilarProducts = async (category) => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/productcategory/${category}`);
+        setSimilarProducts(response.data.slice(0, 4));
+      } catch (err) {
+        console.error("Erreur lors de la récupération des produits similaires :", err);
       }
     };
 
@@ -57,7 +72,7 @@ const SingleProduct = () => {
 
   return (
     <>
-      <div>
+      <div className='mb-10'>
         {product ? (
           <section className='m-12 flex space-x-8 single-product-container'>
             <div>
@@ -75,8 +90,8 @@ const SingleProduct = () => {
                     {size.map((size, index) => (
                       <div
                         key={index}
-                        className={`cursor-pointer p-2 border rounded ${
-                          selectedSize === size ? 'border-black' : 'border-gray-300'
+                        className={`cursor-pointer p-2 rounded text-white ${
+                          selectedSize === size ? 'bg-fuchsia-300' : 'bg-fuchsia-200'
                         }`}
                         onClick={() => handleSizeClick(size)}
                       >
@@ -114,9 +129,12 @@ const SingleProduct = () => {
         )}
       </div>
       <section className='m-12 same-category-container'>
-        <h2 className='text-center text-3xl'>Dans la même catégorie</h2>
-        {/* Utiliser la fonction de récupération des produits  */}
-      </section>
+        <h2 className='text-center text-3xl mb-10'>Dans la même catégorie</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {similarProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>      </section>
     </>
   );
 };
