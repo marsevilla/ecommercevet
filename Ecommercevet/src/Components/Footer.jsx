@@ -4,7 +4,7 @@ import logo from '../assets/Logo.png';
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer1">
       <div className="footer-container">
         <div className="footer-logo">
           <img src={logo} alt="Coeur de soie" />
