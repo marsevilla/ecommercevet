@@ -13,23 +13,29 @@ function Boutique() {
   const query = useQuery();
   const categoryFromUrl = query.get("category");
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl || "");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const url = selectedCategory 
-          ? `http://localhost:8000/api/productcategory/${selectedCategory}` 
-          : "http://localhost:8000/api/products";
+        let url;
+        if (searchTerm) {
+          url = `http://localhost:8000/api/productsearch?name=${searchTerm}`;
+        } else if (selectedCategory) {
+          url = `http://localhost:8000/api/productcategory/${selectedCategory}`;
+        } else {
+          url = "http://localhost:8000/api/products";
+        }
 
         const response = await axios.get(url);
-        setProducts(response.data); 
+        setProducts(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);
       }
     };
 
     fetchProducts();
-  }, [selectedCategory]);
+  }, [selectedCategory, searchTerm]);
 
   return (
     <main className="">
@@ -77,7 +83,13 @@ function Boutique() {
               <label>Accessoires</label>
             </div>
           </form>
-          <input type="text" placeholder="Rechercher" className="mt-4 md:mt-0 p-2 border rounded-md" />
+          <input 
+            type="text" 
+            placeholder="Rechercher" 
+            className="mt-4 md:mt-0 p-2 border rounded-md"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </section>
 
