@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import BannerBoutique from "../assets/bannerBoutique.png";
 import ProductCard from "../Components/productCard";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function Boutique() {
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [hoveredProductId, setHoveredProductId] = useState(null); 
+  const query = useQuery();
+  const categoryFromUrl = query.get("category");
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl || "");
 
   useEffect(() => {
     const fetchProducts = async () => {

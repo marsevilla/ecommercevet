@@ -1,9 +1,11 @@
-function CategoriesCard({ title, image, alt }) {
+import { Link } from "react-router-dom";
+
+function CategoriesCard({ title, image, alt, link }) {
   return (
-    <div className="CatCard">
+    <Link to={link} className="CatCard">
       <img className="CatCard__img" src={image} alt={alt} />
       <p className="CatCard__title">{title}</p>
-    </div>
+    </Link>
   );
 }
 export default CategoriesCard;

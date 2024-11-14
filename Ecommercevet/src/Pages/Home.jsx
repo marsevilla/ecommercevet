@@ -52,16 +52,19 @@ function Home() {
             image={Hauts}
             alt={"Femme portant un haut blanc et une veste marron"}
             title={"Haut"}
+            link={"/boutique?category=haut"}
           />
           <CategoriesCard
             image={Bas}
             alt={"Femme portant un pantalon bleu"}
             title={"Bas"}
+            link={"/boutique?category=bas"}
           />
           <CategoriesCard
             image={Accessoires}
             alt={"bague doré posé sur un présentoir blanc"}
             title={"Accessoires"}
+            link={"/boutique?category=accessoires"}
           />
         </div>
       </section>
