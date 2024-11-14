@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  font-family: Montserrat , sans-serif;
+  color: #b34c5a;
+
+  .column {
+    flex: 1;
+    margin: 0 10px;
+    background-color: #fdf8f9;
+    border: 1px dashed #d6a1ae;
+    border-radius: 8px;
+    padding: 20px;
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #b34c5a;
+      font-family: playfair display, serif;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 5px;
+        border-bottom: 1px dotted #d6a1ae;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .icon {
+          width: 30px;
+          height: 30px;
+          background-color: #eac8d0;
+          color: #b34c5a;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          font-weight: bold;
+          margin-right: 10px;
+        }
+
+        input[type="checkbox"] {
+          transform: scale(1.2);
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dotted #d6a1ae;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .product-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+
+        .edit-btn,
+        .delete-btn {
+          background-color: #eac8d0;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          padding: 5px;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
