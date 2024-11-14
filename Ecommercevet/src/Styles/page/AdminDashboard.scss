@@ -6,8 +6,8 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  font-family: 'Montserrat', sans-serif;
-  color: #b34c5a; /* Soft pink color */
+  font-family: Montserrat , sans-serif;
+  color: #b34c5a;
 
   .column {
     flex: 1;
@@ -22,13 +22,12 @@
       margin-bottom: 15px;
       text-align: center;
       color: #b34c5a;
-      font-family: Playfair Display, serif;
+      font-family: playfair display, serif;
     }
 
     ul {
       list-style: none;
       padding: 0;
-      margin: 0;
 
       li {
         display: flex;
@@ -56,7 +55,7 @@
 
         input[type="checkbox"] {
           transform: scale(1.2);
-          cursor: pointer;
+          cursor: not-allowed;
         }
       }
     }
@@ -91,48 +90,9 @@
           border-radius: 8px;
           font-size: 16px;
           padding: 5px;
-          cursor: pointer;
-          transition: 0.3s;
-
-          &:hover {
-            background-color: #d6a1ae;
-          }
+          cursor: not-allowed;
         }
       }
     }
   }
 }
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 400px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-
-  label {
-    margin-bottom: 10px;
-  }
-
-  input[type="text"],
-  input[type="checkbox"] {
-    margin-left: 10px;
-  }
-
-  button {
-    margin: 10px 5px 0;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #b34c5a;
-    color: #fff;
-
-    &:hover {
-      background: #a03f50;
-    }
-  }
-}
-
