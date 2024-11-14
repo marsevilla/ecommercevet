@@ -5,11 +5,13 @@ import Panier from "./Pages/Panier";
 import Contact from "./Pages/Contact";
 import Boutique from "./Pages/Boutique";
 import Account from "./Pages/Account";
+import AdminDashboard from "./Pages/AdminDashboard";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Legals from "./Pages/Legals";
 import GeneralConditionsOfSale from "./Pages/GeneralConditionsOfSale";
 import SingleProduct from "./Pages/SingleProduct";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Account" element={<Account />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/legals" element={<Legals />} />
         <Route path='/terms' element={<GeneralConditionsOfSale/>} />
       </Routes>
