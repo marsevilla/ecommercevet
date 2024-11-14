@@ -5,10 +5,10 @@ import logo from '../assets/Logo.png';
 function Header() {
   return (
     <header className="header">
-      <div className="logo">
+      <a className="logo" href='/'>
         <img src={logo} alt="Coeur de soie" />
         <span className="brand-name">Coeur de soie</span>
-      </div>
+      </a>
       <nav className="nav">
         <ul>
           <li><a href="/">Accueil</a></li>
