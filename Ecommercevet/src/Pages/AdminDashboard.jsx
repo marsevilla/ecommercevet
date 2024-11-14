@@ -4,7 +4,6 @@ import "./../styles/page/AdminDashboard.scss";
 const AdminDashboard = () => {
   return (
     <div className="dashboard">
-      {/* Left Column: Commandes */}
       <div className="column commandes">
         <h2>Commandes</h2>
         <ul>
@@ -28,7 +27,6 @@ const AdminDashboard = () => {
         </ul>
       </div>
 
-      {/* Middle Column: Produits */}
       <div className="column produits">
         <h2>Produits</h2>
         {[...Array(4)].map((_, index) => (
@@ -47,7 +45,6 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* Right Column: Utilisateurs */}
       <div className="column utilisateurs">
         <h2>Utilisateurs</h2>
         <ul>
