@@ -94,5 +94,39 @@
         }
       }
     }
+    .user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dotted #d6a1ae;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .product-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+
+        .edit-btn,
+        .delete-btn {
+          background-color: #eac8d0;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          padding: 5px;
+          cursor: not-allowed;
+        }
+      }
+    }
   }
 }
