@@ -23,7 +23,7 @@ const AdminDashboardProducts = () => {
   return (
     <div className="column produits">
         <h2>Produits</h2>
-        {products.map((product) => (
+        {products && products.map((product) => (
           <div className="product-item" key={product.id}>
           <img
             src={product.image_url}

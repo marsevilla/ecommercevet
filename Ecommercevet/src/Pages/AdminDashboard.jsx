@@ -6,11 +6,15 @@ import AdminDashboardUsers from "../Components/AdminDashboardUsers";
 
 const AdminDashboard = () => {
   return (
+    <>
     <div className="dashboard">
       <AdminDashboardCommands/>
+    </div>
+    <div className="dashboard">
       <AdminDashboardProducts/>
       <AdminDashboardUsers/>
     </div>
+    </>
   );
 };
 
