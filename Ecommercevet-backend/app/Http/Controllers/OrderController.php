@@ -42,4 +42,12 @@ class OrderController extends Controller
         $order->update(['status' => 'confirmé']);
         return response()->json(['message' => 'Order confirmed successfully'], 200);
     }
+
+    public function validatedOrders(){
+        if (!Auth::user()->isAdmin()) {
+            return response()->json(['error' => 'Access denied. Admins only.'], 403); 
+        }
+        $validatedOrders = Order::where('status', 'confirmé')->with('user:id,name')->get();
+        return response()->json($validatedOrders, 200); 
+    }
 }
