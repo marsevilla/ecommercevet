@@ -7,6 +7,7 @@ import Boutique from "./Pages/Boutique";
 import Account from "./Pages/Account";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import PaymentPage from "./Pages/Payment";
 import Legals from "./Pages/Legals";
 import GeneralConditionsOfSale from "./Pages/GeneralConditionsOfSale";
 import SingleProduct from "./Pages/SingleProduct";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/Panier" element={<Panier />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Account" element={<Account />} />
+        <Route path="/payment" element={<PaymentPage />} /> 
         <Route path="/legals" element={<Legals />} />
         <Route path='/terms' element={<GeneralConditionsOfSale/>} />
       </Routes>
