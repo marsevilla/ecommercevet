@@ -1,8 +1,19 @@
 import React from 'react';
 import './footer.scss';
+import { useEffect, useState } from 'react';
 import logo from '../assets/Logo.png';
 
 function Footer() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    setIsLoggedIn(loggedIn);
+    setUserRole(userInfo ? userInfo.role : null);
+  }, []);
+
   return (
     <footer className="footer1">
       <div className="footer-container">
@@ -20,8 +31,9 @@ function Footer() {
             <li><a href="/contact">Contact</a></li>
           </ul>
           <ul>
-            <li><a href="/cart">Mon panier</a></li>
-            <li><a href="/accoubt">Mon compte</a></li>
+            {isLoggedIn && <li><a href="/cart">Mon panier</a></li>}
+            {isLoggedIn ? <li><a href="/account">Mon compte</a></li> : <li><a href="/account">Connexion</a></li>}
+            {userRole === 'admin' && <li><a href="/admin">Tableau de bord</a></li>}
           </ul>
           <ul>
             <li><a href="/legals">Mentions légales</a></li>
