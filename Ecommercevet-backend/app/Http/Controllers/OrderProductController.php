@@ -75,5 +75,14 @@ class OrderProductController extends Controller
         return response()->json(['message' => 'Quantité mise à jour avec succès'], 200);
     }
 
+    public function removeProduct($orderProductId)
+{
+    $orderProduct = OrderProduct::find($orderProductId);
+    if (!$orderProduct) {
+        return response()->json(['message' => 'Produit non trouvé dans le panier.'], 404);
+    }
+    $orderProduct->delete();
+    return response()->json(['message' => 'Produit supprimé avec succès.'], 200);
+}
 
 }

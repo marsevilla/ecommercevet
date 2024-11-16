@@ -17,10 +17,19 @@ class OrderController extends Controller
             ['date' => now(), 'total_amount' => 0]
         );
     
+
+        $totalAmount = $order->orderProducts->sum(function ($orderProduct) {
+            return $orderProduct->product->price * $orderProduct->quantity;
+        });
+    
+        $order->update(['total_amount' => $totalAmount]);
+    
         $order->load('orderProducts.product');
         \Log::info('Commande récupérée:', $order->toArray());
+    
         return response()->json($order, 200);
     }
+    
     
 
     public function updateTotalAmount($order)
@@ -42,4 +51,17 @@ class OrderController extends Controller
         $order->update(['status' => 'confirmé']);
         return response()->json(['message' => 'Order confirmed successfully'], 200);
     }
+
+    public function clearCart()
+{
+    $order = Order::where('user_id', Auth::id())->where('status', 'en attente')->first();
+
+    if (!$order) {
+        return response()->json(['message' => 'Aucun panier actif à vider.'], 404);
+    }
+    $order->orderProducts()->delete();
+    $order->update(['total_amount' => 0]);
+    return response()->json(['message' => 'Panier vidé avec succès.'], 200);
+}
+
 }
