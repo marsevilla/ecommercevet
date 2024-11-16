@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Panier() {
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -21,8 +24,14 @@ function Panier() {
         if (response.data && response.data.order_products) {
           setCartItems(response.data.order_products);
           setTotalAmount(parseFloat(response.data.total_amount) || 0);
+          const recalculatedTotal = response.data.order_products.reduce(
+            (acc, item) => acc + item.product.price * item.quantity,
+            0
+          );
+          setTotalAmount(recalculatedTotal);
         } else {
           setCartItems([]);
+          setTotalAmount(0); 
         }
       } catch (error) {
         console.error("Erreur lors de la récupération du panier :", error);
@@ -32,6 +41,10 @@ function Panier() {
 
     fetchCartItems();
   }, []);
+
+  useEffect(() => {
+    recalculateTotal();
+  }, [cartItems]);
 
   const updateQuantity = async (orderProductId, quantity) => {
     try {
@@ -65,10 +78,13 @@ function Panier() {
     }
   };
 
-
   const recalculateTotal = () => {
     const newTotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     setTotalAmount(newTotal);
+  };
+
+  const handlePaymentClick = () => {
+    navigate("/payment");
   };
 
   return (
@@ -113,6 +129,12 @@ function Panier() {
           </div>
           <div className="cart-summary mt-4">
             <h2>Total du panier : {totalAmount.toFixed(2)} €</h2>
+            <button
+              onClick={handlePaymentClick}
+              className="bg-pink-600 text-white px-6 py-3 mt-4 rounded-lg hover:bg-pink-700"
+            >
+              Payer
+            </button>
           </div>
         </>
       )}
